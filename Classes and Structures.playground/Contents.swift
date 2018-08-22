@@ -72,7 +72,7 @@ class Rectangle:Shapes{
     var side1:Int
     var side2:Int
     var origin:Point
-    static var count  = 0
+    static var count  = 0 // static variable used to track the count of number of objects created
     
     init(side1:Int,side2:Int,origin:Point,color:String)
     {
@@ -138,7 +138,7 @@ class Triangle:Shapes{
     }
     
     func findArea()->Double{
-        let s = side1 + side2 + side3/2
+        let s = (side1 + side2 + side3)/2
         let insideSquareRoot = s*(s-side1)*(s-side2)*(s-side3)
         return sqrt(Double(insideSquareRoot))
     }
@@ -146,6 +146,8 @@ class Triangle:Shapes{
     func displayDetail()->String{
         return "side1 = \(side1) side2 = \(side2) side3 = \(side3) Area = \(findArea())"
     }
+    
+
 }
 
 class Circle:Shapes{
@@ -165,15 +167,74 @@ class Circle:Shapes{
     }
 }
 
-//class EquilateralTriangle:Triangle{
-//    var angle1:Int
-//    var angle2:Int
-//    var angle:Int
-//
-//    init(side1: Int, side2: Int, side3: Int, color: String, origin: Point,angle1:Int,angle2:Int,angle3:Int) {
-//        <#code#>
-//    }
-//}
+class EquilateralTriangle:Triangle{
+    var angle1:Int
+    var angle2:Int
+    var angle3:Int
+
+    init(side1: Int, side2: Int, side3: Int, color: String, origin: Point,angle1:Int,angle2:Int,angle3:Int) {
+        self.angle1 = angle1
+        self.angle2 = angle2
+        self.angle3 = angle3
+        super.init(side1: side1, side2: side2, side3: side3, color: color, origin: origin)
+    }
+    
+}
+
+class CreateShapes{
+    static var tri:Triangle?
+    
+    
+    //static functions
+    static func checkTriangle(x:Int,y:Int,z:Int) -> Bool{
+        if x+y < z || y+z < x || x+z < y{
+            return false
+        }
+        return true
+    }
+    
+    static func createTriangle(x:Int,y:Int,z:Int,color:String,origin:Point)->Triangle{
+        if checkTriangle(x:x,y:y,z:z){
+            let tri = Triangle(side1: x, side2: y, side3: z, color: color, origin: origin)
+            return tri
+        }
+        return tri!
+    }
+}
+
+
+var triangle = CreateShapes.createTriangle(x: 10, y: 23, z: 25, color: "red", origin: Point(x: 0, y: 0))
+var list_of_rectangle = [Rectangle]()
+for _ in 1...5{
+    list_of_rectangle.append(Rectangle(side1: 10, side2: 23, origin: Point(x: 1, y: 2), color: "green"))
+}
+print(triangle.displayDetail())
+print(Rectangle.count) // static variable used to track the count of number of rectangle objects created
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
