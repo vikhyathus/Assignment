@@ -212,30 +212,4 @@ print(triangle.displayDetail())
 print(Rectangle.count) // static variable used to track the count of number of rectangle objects created
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
