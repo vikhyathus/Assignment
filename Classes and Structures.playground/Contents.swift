@@ -32,8 +32,8 @@ struct Point{
     }
 }
 
-//defining a class for a side
-struct Side{
+//defining a structure for a side
+struct Line{
     
     var point1:Point
     var point2:Point
@@ -43,13 +43,7 @@ struct Side{
         self.point2 = point2
     }
     
-//    func calculateLength(point1:Point,point2:Point)->Int{
-//        let res = Int(sqrt(pow(Double(point1.x - point2.x),2.0) + pow(Double(point1.y - point2.y),2.0) + pow(Double(point1.z - point2.z),2.0)))
-//        length = res
-//        return length;
-//    }
-    
-    //getter method
+    //getter method - Read only computed property
     var length:Int{
         get{
             return Int(sqrt(pow(Double(point1.x - point2.x),2.0) + pow(Double(point1.y - point2.y),2.0) + pow(Double(point1.z - point2.z),2.0)))
@@ -60,35 +54,126 @@ struct Side{
 }
 
 //inheriting from the Shapes class
-class TwoDShapes:Shapes{
-    var side1:Side
+//class TwoDShapes:Shapes{
+//    var side1:Side
+//
+//    init(side1:Side,color:String)
+//    {
+//        self.side1 = side1
+//        super.init(color: color)
+//    }
+//
+//    func displayDetails()->String{
+//        return "This is a 2d shape with color \(color)"
+//    }
+//}
+
+class Rectangle:Shapes{
+    var side1:Int
+    var side2:Int
+    var origin:Point
+    static var count  = 0
     
-    init(side1:Side,color:String)
+    init(side1:Int,side2:Int,origin:Point,color:String)
     {
         self.side1 = side1
+        self.side2 = side2
+        self.origin = origin
         super.init(color: color)
+        Rectangle.count+=1
     }
     
-    func displayDetails()->String{
-        return "This is a 2d shape with color \(color)"
+    var center:Point{
+        get{
+            let xcoordinate = origin.x + side1
+            let ycoordinate = origin.y + side2
+            return Point(x: xcoordinate, y: ycoordinate)
+        }
     }
+    
+    //access is restricted to this particular class
+    func findArea()->Int{
+        let area = side1*side2
+        return area
+    }
+    
+    func displayDetail() -> String {
+        
+        return "The length of the rectangle is \(side1), The breadth of the triangle is \(side2), The area of the rectangle is \(findArea()), The origin is \(origin), The center:\(center)"
+    }
+    
 }
 
 
+class Square:Rectangle{
+    
+    init(side1:Int,origin:Point,color:String){
+        super.init(side1: side1, side2: side1, origin: origin, color: color)
+    }
+    
+    //overiding the find area function
+    override func findArea() -> Int {
+        return Int(pow(Double(super.side1),2))
+    }
+    
+    //overiding the display detal function
+    override func displayDetail() -> String {
+        return "The side length is \(super.side1), The area is \(findArea())"
+    }
+    
+}
 
+class Triangle:Shapes{
+    var side1:Int
+    var side2:Int
+    var side3:Int
+    var origin:Point
+    
+    init(side1:Int,side2:Int,side3:Int,color:String,origin:Point){
+        self.side1 = side1
+        self.side2 = side2
+        self.side3 = side3
+        self.origin = origin
+        super.init(color: color)
+    }
+    
+    func findArea()->Double{
+        let s = side1 + side2 + side3/2
+        let insideSquareRoot = s*(s-side1)*(s-side2)*(s-side3)
+        return sqrt(Double(insideSquareRoot))
+    }
+    
+    func displayDetail()->String{
+        return "side1 = \(side1) side2 = \(side2) side3 = \(side3) Area = \(findArea())"
+    }
+}
 
+class Circle:Shapes{
+    var radius:Int
+    
+    init(radius:Int,color:String) {
+        self.radius = radius
+        super.init(color: color)
+    }
+    
+    func findArea() -> Int {
+        return Int(Double.pi * Double(radius*radius))
+    }
+    
+    func displayDetail()->String{
+        return "Radius = \(radius) Area = \(findArea())"
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
+//class EquilateralTriangle:Triangle{
+//    var angle1:Int
+//    var angle2:Int
+//    var angle:Int
+//
+//    init(side1: Int, side2: Int, side3: Int, color: String, origin: Point,angle1:Int,angle2:Int,angle3:Int) {
+//        <#code#>
+//    }
+//}
 
 
 
