@@ -109,18 +109,3 @@ extension Int{
 print((-15).kind)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
