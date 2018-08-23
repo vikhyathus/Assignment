@@ -2,6 +2,7 @@
 
 import UIKit
 import PlaygroundSupport
+import Darwin
 
 protocol FullyNamed {
     var fullName: String { get }
@@ -33,6 +34,7 @@ protocol Initialser{
 //Mutating method requirements
 protocol Mutating{
     mutating func anyMethod(inc_length:Int)
+    func someFunc() -> String
 }
 
 class Point:Initialser{
@@ -76,6 +78,9 @@ struct Rect:Mutating{
         origin.x += inc_length
         origin.y += inc_length
     }
+    func someFunc() -> String {
+        return "Yes it works!!"
+    }
 }
 var r = Rect(origin: Point(x:0,y:0), size: Size(len: 10, wid: 20))
 print(r.origin.x, r.origin.y)
@@ -83,28 +88,32 @@ r.anyMethod(inc_length: 10)
 print(r.origin.x, r.origin.y)
 
 
+//Protocols as types
+protocol RandomNumberGenerator{
+    func random()->Double
+}
 
+class Randomgen:RandomNumberGenerator{
+    
+    func random() -> Double {
+        return Double(arc4random())
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class Dice {
+    let sides: Int
+    let generator: RandomNumberGenerator
+    init(sides: Int, generator: RandomNumberGenerator) {
+        self.sides = sides
+        self.generator = generator
+    }
+    func roll() -> Int {
+        return Int(generator.random() * Double(sides))%sides + 1
+    }
+}
+var d = Dice(sides: 6, generator: Randomgen())
+for _ in 1...5 {
+    print("Random dice roll is \(d.roll())")
+}
 
 
